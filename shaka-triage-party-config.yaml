@@ -1,0 +1,268 @@
+# Shaka Team Triage Party - Config
+
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Uses Shaka team's common label structure defined in
+# go/shaka-github-labels-design
+
+
+settings:
+  name: Shaka Team Triage
+  repos:
+    # TODO: re-enable Shaka Packager when we are ready to catch up
+    #- https://github.com/google/shaka-packager
+    - https://github.com/google/shaka-player
+    # TODO: re-enable Shaka Player Embedded when we are ready to catch up
+    #- https://github.com/google/shaka-player-embedded
+    - https://github.com/google/shaka-streamer
+    - https://github.com/google/eme-encryption-scheme-polyfill
+    - https://github.com/google/generic-webdriver-server
+    - https://github.com/joeyparrish/static-ffmpeg-binaries
+
+  # From 0-1, how similar issues must be to be tagged as "similar"
+  min_similarity: 0.75
+
+  # Which roles are considered members of the project?
+  member-roles:
+    # TODO: enable "member" when we have our own org for these projects
+    #- member # of the org that owns the project
+    - collaborator
+    - owner
+
+  # Hard-coded "members" of the team, who do not fit into member-roles above.
+  members: []
+
+
+collections:
+  - id: triage
+    name: Daily Triage
+    dedup: true
+    description: |
+       "To create bugs is human; to fix them, divine."
+
+       Please address these groups of issues in this order.
+
+    rules:
+      - issue-needs-type
+      - issue-needs-priority
+      - question-needs-answer
+      - pr-needs-review
+      - p0-bug-needs-fix
+      - p1-bug-needs-fix
+      - p2-bug-needs-fix
+
+  - id: cleanup
+    name: Weekly Cleanup
+    dedup: true
+    description: |
+        "A clean tracker is a happy tracker."
+
+        Please check these issues that may need to be cleaned up.
+
+    rules:
+      - issues-maybe-ready-to-close
+      - announcements
+
+  - id: __open__
+    name: All open PRs and issues that should be considered for repository stats (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules:
+      - open-prs
+      - open-issues
+
+  - id: __velocity__
+    name: Issues to include in velocity metrics (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules:
+      - closed-milestone-issues
+
+
+# A long bit of text, factored out and re-used in the rules below.
+bug-resolution-text: &bug-resolution-text |
+    Fix bugs!  This is the "fun" part.
+
+    1. Try to reproduce the issue.  Some options for repro:
+      • Use the demo's "custom content" tab
+      • Write a new unit or integration test to simulate the scenario in the report
+        • This lets you run tests in the lab on non-desktop browsers
+
+    2. If the issue cannot be reproduced, set "status: unable to reproduce"
+
+    3. Once the issue can be reproduced, try to fix it or assign it to someone who can
+
+
+rules:
+  issue-needs-type:
+    name: "Untyped Issues"
+    resolution: |
+        Please add a type label.
+
+        (You do not need to reproduce the issue yet.  At this stage, assume that bug reports are correct.)
+
+    type: issue
+    filters:
+      - label: "!type: .*"
+
+  issue-needs-priority:
+    name: "Unprioritized Issues"
+    resolution: |
+        Please add a priority label.
+
+        (Make an initial assessment.  It doesn't have to be perfect.)
+
+        Tips for assessing priority:
+          • If it's an enhancement, it is almost always a P2 or lower
+          • If it's a bug, it is usually a P1 or P2
+          • Read the descriptions of each priority label on GitHub to help you decide
+
+    type: issue
+    filters:
+      - label: "!priority: .*"
+      # Has a type...
+      - label: "type: .*"
+      # But not one of these, which do not need priorities.
+      - label: "!type: (announcement|external|process|question)"
+      # And if it already has a status, it doesn't need a priority.
+      - label: "!status: .*"
+
+  question-needs-answer:
+    name: "Unanswered questions"
+    resolution: |
+        Please answer as best you can.
+
+        You may ping your teammates if you need help finding information, but
+        try to be the one to track down that info and leave the answer on
+        GitHub.  Every answer you dig up for someone else is one more thing
+        you've learned for yourself.
+
+    type: issue
+    filters:
+      - label: "type: question"
+      # The most recent comment was not from a member of the project.
+      - tag: "!(member-last|owner-last|collaborator-last)"
+
+  pr-needs-review:
+    name: "PRs ready for review"
+    resolution: |
+        Please review.
+
+        You may ping your teammates if you need help evaluating a PR, but try
+        to track down what you don't know.
+
+        You should also consider asking the author to clarify things for you,
+        either in review comments or by adding comments to their code.
+
+        You can manually add the "status: waiting for response" label if you
+        haven't had a reply in a while.  This will start the timer for
+        shaka-bot to eventually close the PR.
+
+        If you aren't getting replies to your feedback, you can also choose to
+        re-implement what the contributor has sent in a different way.  But do
+        not copy their code and merge it as your own, as this would strip the
+        original author of credit for their work.
+
+        If you want to keep the original implementation, but make small changes
+        to it, you can edit the PR before merging it:
+          1. Go to the "Files changed" tab of the PR
+          2. Click the overflow menu on the right side of the diff
+          3. Click "Edit file"
+          4. Leave comments in the PR to explain your change to the author
+
+    type: pull_request
+    filters:
+      # TODO: test these filters on PRs from project members/owners
+      # The PR has new commits since the last member response (new-commits), or
+      # the author has responded more recently than any member of the project
+      # (recv or recv-q), or the PR has not been reviewed (unreviewed).
+      - tag: "(new-commits|recv|recv-q|unreviewed)"
+
+  p0-bug-needs-fix:
+    name: "P0 issues to fix"
+    resolution: *bug-resolution-text
+    type: issue
+    filters:
+      - label: "!type: enhancement"
+      - label: "priority: P0"
+      - label: "!status: .*"
+
+  p1-bug-needs-fix:
+    name: "P1 issues to fix"
+    resolution: *bug-resolution-text
+    type: issue
+    filters:
+      - label: "!type: enhancement"
+      - label: "priority: P1"
+      - label: "!status: .*"
+
+  p2-bug-needs-fix:
+    name: "P2 issues to fix"
+    resolution: *bug-resolution-text
+    type: issue
+    filters:
+      - label: "!type: enhancement"
+      - label: "priority: P2"
+      - label: "!status: .*"
+
+  issues-maybe-ready-to-close:
+    name: "Issues that might be ready to close"
+    resolution: |
+        Please check if the issue should be closed.  Use your best judgement.
+        
+        Possible outcomes:
+          • Remove the status, if it's wrong
+          • Leave open for further discussion or consideration, if we're not sure
+          • Close, referencing the status
+
+    type: issue
+    filters:
+      # Has a status...
+      - label: "status: .*"
+      # But not one of these.  Any other status label is usually followed by
+      # closing an issue (eventually).  So once in a while, we should check to
+      # see if it's time to close these issues.
+      - label: "!status: (archived|waiting on response)"
+
+  # TODO: Add multiple-types to the weekly list once there is a way to do it.
+  # See https://github.com/google/triage-party/issues/274
+  #multiple-types:
+  #  name: "Issues with more than one type"
+  #  resolution: "Choose a specific type for this issue."
+  #  type: issue
+  #  filters:
+
+  announcements:
+    name: "Announcements"
+    resolution: "Please close if the announcement is no longer relevant."
+    type: issue
+    filters:
+      - label: "type: announcement"
+
+  open-issues:
+    name: "Open Issues"
+    type: issue
+
+  open-prs:
+    name: "Open PRs"
+    type: pull_request
+
+  closed-milestone-issues:
+    name: "Recently closed milestone issues"
+    type: issue
+    filters:
+      - state: closed
+      - closed: -90d
+      - milestone: ".*"

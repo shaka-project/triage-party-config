@@ -1,0 +1,89 @@
+/* Shaka Team Triage Party - CSS Overrides
+ *
+ * Copyright 2020 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/* Shaka logo colors, for reference:
+ - blue: #5294d6
+ - red: #ef3232
+ - yellow: #fbbc09
+ - green: #3db94b
+*/
+
+
+.collapsible {
+  /* Show a pointer cursor (hand) for any collapsible element, so the user knows
+   * that they can click on it. */
+  cursor: pointer;
+}
+
+h3 {
+  /* Hide the very long mouse-over titles that duplicate what is on the screen.
+   * This doesn't hide the title from a screen-reader, though. */
+  pointer-events: none;
+}
+
+/* This is the text that states how to resolve a given set of issues. */
+h4.subtitle {
+  /* Don't collapse whitespace in the description. */
+  white-space: pre;
+}
+h4.subtitle::after {
+  /* Insert a newline after the description. */
+  content: "\a";
+}
+
+
+.navbar-brand {
+  /* This link to the home page is fairly useless.  This disables it. */
+  pointer-events: none;
+}
+
+
+.navbar {
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.navbar,
+a.navbar-item,
+.navbar-end .button {
+  color: #5294d6;
+}
+
+.navbar-start .navbar-item:hover,
+.navbar-end .button:hover {
+  background-color: #5294d6;
+  color: #fafafa;
+}
+
+.navbar-item.is-active {
+  /* Why, oh why, did the developers use "!important" on this? Now we have to
+   * follow suit to override it. */
+  background-color: #fbbc09 !important;
+}
+
+.navbar.secondary {
+  background-color: #3db94b;
+}
+
+.navbar-center {
+  color: white;
+}
+
+.navbar-brand img {
+  /* Change the image in the nav bar to our logo. */
+  content:url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
+}
