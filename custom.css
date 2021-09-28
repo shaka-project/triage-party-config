@@ -87,3 +87,12 @@ a.navbar-item,
   /* Change the image in the nav bar to our logo. */
   content:url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
 }
+
+.navbar.secondary::before {
+  /* Add a go/ link under the title in the secondary nav bar. */
+  content: "go/shaka-triage";
+  color: white;
+  /* It should not take up space in the layout or move the navbar contents. */
+  position: absolute;
+  margin-left: 1em;
+}
