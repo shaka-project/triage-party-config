@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Shaka Team Triage Party - Docker Launch Script
+# Shaka Team Triage Party - Local Docker Launch Script
 
 # Copyright 2021 Google LLC
 #
@@ -29,12 +29,14 @@ fi
 set -ex
 
 DIR=$(realpath $(dirname "$0"))
+PROJECT=shaka-player-demo
+IMAGE=gcr.io/shaka-player-demo/triage-party
+
+docker build -t "${IMAGE}" .
 
 docker run \
   --rm \
   -e GITHUB_TOKEN \
   -e PORT \
-  -v "$DIR/shaka-triage-party-config.yaml:/app/config/config.yaml" \
-  -v "$DIR/custom.css:/app/site/static/css/custom.css" \
-  -p "$PORT:$PORT" \
-  triageparty/triage-party:latest
+  -p "${PORT}:${PORT}" \
+  "${IMAGE}"
