@@ -30,7 +30,7 @@ set -ex
 
 DIR=$(realpath $(dirname "$0"))
 PROJECT=shaka-player-demo
-IMAGE=gcr.io/shaka-player-demo/triage-party
+IMAGE=gcr.io/shaka-player-demo/triage-party-config/triage-party
 
 docker build -t "${IMAGE}" .
 
