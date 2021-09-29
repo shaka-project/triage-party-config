@@ -135,7 +135,10 @@ rules:
 
     type: issue
     filters:
+      # Has no type
       - label: "!type: .*"
+      # And no status (open issues with a status show up in the cleanup tab)
+      - label: "!status: .*"
 
   issue-needs-priority:
     name: "Unprioritized Issues"
