@@ -241,7 +241,7 @@ rules:
 
     type: issue
     filters:
-      - label: "!type: enhancement"
+      - label: "!type: (enhancement|external)"
       - label: "!status: .*"
       - tag: "assigned"
 
@@ -250,7 +250,7 @@ rules:
     resolution: *bug-resolution-text
     type: issue
     filters:
-      - label: "!type: enhancement"
+      - label: "!type: (enhancement|external)"
       - label: "priority: P0"
       - label: "!status: .*"
 
@@ -259,7 +259,7 @@ rules:
     resolution: *bug-resolution-text
     type: issue
     filters:
-      - label: "!type: enhancement"
+      - label: "!type: (enhancement|external)"
       - label: "priority: P1"
       - label: "!status: .*"
 
@@ -268,7 +268,7 @@ rules:
     resolution: *bug-resolution-text
     type: issue
     filters:
-      - label: "!type: enhancement"
+      - label: "!type: (enhancement|external)"
       - label: "priority: P2"
       - label: "!status: .*"
 
