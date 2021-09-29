@@ -34,6 +34,11 @@ h3 {
    * This doesn't hide the title from a screen-reader, though. */
   pointer-events: none;
 }
+.tab-link {
+  /* Re-enable mouse events for the "open in tabs" link that appears within the
+   * h4 element. */
+  pointer-events: all
+}
 
 /* This is the text that states how to resolve a given set of issues. */
 h4.subtitle {
