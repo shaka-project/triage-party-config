@@ -193,6 +193,8 @@ rules:
       # extra scrutiny may be required.
       - tag: "approved"
 
+  # TODO: add labels for checks (Jenkins and/or GitHub Actions)
+  # TODO: split this into PRs that have passed checks and those that haven't
   pr-needs-review:
     name: "PRs ready for review"
     resolution: |
