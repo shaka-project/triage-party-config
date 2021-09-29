@@ -50,15 +50,35 @@ collections:
     name: Daily Triage
     dedup: true
     description: |
-       "To create bugs is human; to fix them, divine."
-
        Please address these groups of issues in this order.
 
     rules:
       - issue-needs-type
       - issue-needs-priority
       - question-needs-answer
+
+  - id: pr
+    name: PRs
+    dedup: true
+    description: |
+       Help them help us!
+
+       Please give attention to these PRs.  Treat contributors like teammates.
+
+    rules:
+      - pr-ready-to-merge
       - pr-needs-review
+
+  - id: bugs
+    name: Bugs
+    dedup: true
+    description: |
+       "To create bugs is human; to fix them, divine."
+
+       Please address these groups of issues in this order.
+
+    rules:
+      - assigned-bugs
       - p0-bug-needs-fix
       - p1-bug-needs-fix
       - p2-bug-needs-fix
@@ -67,7 +87,7 @@ collections:
     name: Weekly Cleanup
     dedup: true
     description: |
-        "A clean tracker is a happy tracker."
+        A clean tracker is a happy tracker!
 
         Please check these issues that may need to be cleaned up.
 
@@ -155,6 +175,21 @@ rules:
       # The most recent comment was not from a member of the project.
       - tag: "!(member-last|owner-last|collaborator-last)"
 
+  pr-ready-to-merge:
+    name: "PRs ready to merge"
+    resolution: |
+        Please check if these PRs can be merged.
+
+        Make sure all checks have passed and that a team member or other
+        appropriate reviewer has approved the PR.
+
+    type: pull_request
+    filters:
+      # TODO: test these filters on PRs from project members/owners
+      # Match all approved PRs.  But this could be approval from anyone, so
+      # extra scrutiny may be required.
+      - tag: "approved"
+
   pr-needs-review:
     name: "PRs ready for review"
     resolution: |
@@ -189,6 +224,26 @@ rules:
       # the author has responded more recently than any member of the project
       # (recv or recv-q), or the PR has not been reviewed (unreviewed).
       - tag: "(new-commits|recv|recv-q|unreviewed)"
+      # In this category, only match PRs which have not been approved yet.
+      - tag: "!approved"
+
+  assigned-bugs:
+    name: "Assigned bugs"
+    resolution: |
+        These issues are already assigned to someone.
+
+        Is the issue assigned to you?  If there's nothing more urgent, try to
+        finish what you started.
+
+        Is the issue assigned to someone else?  Are they actually working on it?
+        Ask them if they are still engaged on the issue, and unassign it if they
+        are not.
+
+    type: issue
+    filters:
+      - label: "!type: enhancement"
+      - label: "!status: .*"
+      - tag: "assigned"
 
   p0-bug-needs-fix:
     name: "P0 issues to fix"
