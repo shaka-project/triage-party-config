@@ -52,9 +52,7 @@ steps:
         gcloud run services update "$_SERVICE_NAME" \
           --platform=$_PLATFORM \
           --image="$_IMAGE_NAME" \
-          --add-cloudsql-instances=$PROJECT_ID:$_DEPLOY_REGION:$_DB_INSTANCE_NAME \
-          --vpc-connector="$_VPC_CONNECTOR" \
-          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=cloudsql,PERSIST_PATH=triage-party:$$DB_PASS@tcp($PROJECT_ID/$_DEPLOY_REGION/$_DB_INSTANCE_NAME)/$_DB_NAME" \
+          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=memory" \
           --labels="$_LABELS" \
           --region="$_DEPLOY_REGION" \
           --quiet
@@ -62,15 +60,12 @@ steps:
     # extracted from the Google Cloud Secret Manager:
     secretEnv:
       - GITHUB_TOKEN
-      - DB_PASS
 
 # Defines secrets extracted from the Google Cloud Secret Manager:
 availableSecrets:
   secretManager:
     - versionName: projects/473772788765/secrets/shaka-bot-triage-party-token/versions/1
       env: GITHUB_TOKEN
-    - versionName: projects/473772788765/secrets/triage-party-db-pass/versions/1
-      env: DB_PASS
 
 options:
   # Don't error when a substitution is not used.
@@ -82,9 +77,6 @@ substitutions:
   _GCR_HOSTNAME: us.gcr.io
   _PLATFORM: managed
   _SERVICE_NAME: triage-party  # Google Cloud Run service name
-  _VPC_CONNECTOR: db-net-connector  # Serverless VPC connector, to link to the database instance's network
-  _DB_INSTANCE_NAME: triage-party-db  # Google Cloud SQL instance name
-  _DB_NAME: triageparty  # Actual MySQL database name
   _DEPLOY_REGION: us-central1
   _LABELS: managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=${COMMIT_SHA},gcb-build-id=${BUILD_ID},gcb-trigger-id=${_TRIGGER_ID}
   _TRIGGER_ID: a47347b1-4531-4c36-970d-3e70505c8b6e
