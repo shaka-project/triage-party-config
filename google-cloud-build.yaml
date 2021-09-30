@@ -62,15 +62,12 @@ steps:
     # extracted from the Google Cloud Secret Manager:
     secretEnv:
       - GITHUB_TOKEN
-      - DB_PASS
 
 # Defines secrets extracted from the Google Cloud Secret Manager:
 availableSecrets:
   secretManager:
     - versionName: projects/473772788765/secrets/shaka-bot-triage-party-token/versions/1
       env: GITHUB_TOKEN
-    - versionName: projects/473772788765/secrets/triage-party-db-pass/versions/1
-      env: DB_PASS
 
 options:
   # Don't error when a substitution is not used.
@@ -90,7 +87,7 @@ substitutions:
   _DATABASE_NAME: triageparty
   _DATABASE_CONNECTION_NAME: ${PROJECT_ID}:${_DEPLOY_REGION}:${_DATABASE_INSTANCE_NAME}
   _DATABASE_USER: triage-party
-  _PERSIST_PATH: ${_DATABASE_USER}:$$DB_PASS@unix(/cloudsql/${_DATABASE_CONNECTION_NAME})/${_DATABASE_NAME}
+  _PERSIST_PATH: unix(/cloudsql/${_DATABASE_CONNECTION_NAME})/${_DATABASE_NAME}
 
 images:
   - '${_GCR_HOSTNAME}/${PROJECT_ID}/${REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
