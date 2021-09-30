@@ -54,7 +54,7 @@ steps:
           --image="$_IMAGE_NAME" \
           --max-instances 1 \
           --add-cloudsql-instances="${_DATABASE_CONNECTION_NAME}" \
-          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=mysql,PERSIST_PATH=${_PERSIST_PATH}" \
+          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=mysql,PERSIST_PATH=${_DATABASE_USER}:$$DB_PASS@${_DATABASE_ADDRESS}" \
           --labels="$_LABELS" \
           --region="$_DEPLOY_REGION" \
           --quiet
@@ -89,7 +89,7 @@ substitutions:
   _DATABASE_NAME: triageparty
   _DATABASE_CONNECTION_NAME: ${PROJECT_ID}:${_DEPLOY_REGION}:${_DATABASE_INSTANCE_NAME}
   _DATABASE_USER: triage-party
-  _PERSIST_PATH: ${_DATABASE_USER}:$$DB_PASS@unix(/cloudsql/${_DATABASE_CONNECTION_NAME})/${_DATABASE_NAME}
+  _DATABASE_ADDRESS: unix(/cloudsql/${_DATABASE_CONNECTION_NAME})/${_DATABASE_NAME}
 
 images:
   - '${_GCR_HOSTNAME}/${PROJECT_ID}/${REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
