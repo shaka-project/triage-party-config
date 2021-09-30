@@ -50,10 +50,11 @@ steps:
       - '-c'
       - |
         gcloud run services update "$_SERVICE_NAME" \
-          --platform=$_PLATFORM \
+          --platform="$_PLATFORM" \
           --image="$_IMAGE_NAME" \
           --max-instances 1 \
-          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=memory" \
+          --add-cloudsql-instances="${_DATABASE_CONNECTION_NAME}" \
+          --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=mysql,PERSIST_PATH=${_PERSIST_PATH}" \
           --labels="$_LABELS" \
           --region="$_DEPLOY_REGION" \
           --quiet
@@ -67,6 +68,8 @@ availableSecrets:
   secretManager:
     - versionName: projects/473772788765/secrets/shaka-bot-triage-party-token/versions/1
       env: GITHUB_TOKEN
+    - versionName: projects/473772788765/secrets/triage-party-db-pass/versions/1
+      env: DB_PASS
 
 options:
   # Don't error when a substitution is not used.
@@ -82,6 +85,11 @@ substitutions:
   _LABELS: managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=${COMMIT_SHA},gcb-build-id=${BUILD_ID},gcb-trigger-id=${_TRIGGER_ID}
   _TRIGGER_ID: a47347b1-4531-4c36-970d-3e70505c8b6e
   _IMAGE_NAME: ${_GCR_HOSTNAME}/${PROJECT_ID}/${REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}
+  _DATABASE_INSTANCE_NAME: triage-party-db
+  _DATABASE_NAME: triageparty
+  _DATABASE_CONNECTION_NAME: ${PROJECT_ID}:${_DEPLOY_REGION}:${_DATABASE_INSTANCE_NAME}
+  _DATABASE_USER: triage-party
+  _PERSIST_PATH: ${_DATABASE_USER}:$$DB_PASS@unix(/cloudsql/${_DATABASE_CONNECTION_NAME})/${_DATABASE_NAME}
 
 images:
   - '${_GCR_HOSTNAME}/${PROJECT_ID}/${REPO_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}'
