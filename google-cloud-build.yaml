@@ -62,6 +62,7 @@ steps:
     # extracted from the Google Cloud Secret Manager:
     secretEnv:
       - GITHUB_TOKEN
+      - DB_PASS
 
 # Defines secrets extracted from the Google Cloud Secret Manager:
 availableSecrets:
