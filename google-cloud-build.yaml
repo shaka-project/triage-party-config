@@ -52,6 +52,7 @@ steps:
         gcloud run services update "$_SERVICE_NAME" \
           --platform="$_PLATFORM" \
           --image="$_IMAGE_NAME" \
+          --min-instances 1 \
           --max-instances 1 \
           --add-cloudsql-instances="${_DATABASE_CONNECTION_NAME}" \
           --set-env-vars="GITHUB_TOKEN=$$GITHUB_TOKEN,PERSIST_BACKEND=mysql,PERSIST_PATH=${_PERSIST_PATH}" \
