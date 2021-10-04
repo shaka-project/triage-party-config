@@ -48,7 +48,6 @@ settings:
 collections:
   - id: triage
     name: Daily Triage
-    dedup: true
     description: |
        Please address these groups of issues in this order.
 
@@ -56,6 +55,7 @@ collections:
       - issue-needs-type
       - issue-needs-priority
       - question-needs-answer
+      - issue-needs-component
 
   - id: pr
     name: PRs
@@ -166,6 +166,21 @@ rules:
       - label: "!type: (announcement|external|process|question)"
       # And if it already has a status, it doesn't need a priority.
       - label: "!status: .*"
+
+  issue-needs-component:
+    name: "Issues without a Component"
+    resolution: |
+        Please add at least one component label.
+
+        (Make an initial assessment.  It doesn't have to be perfect.)
+
+    type: issue
+    filters:
+      - label: "!component: .*"
+      # Has a type...
+      - label: "type: .*"
+      # But not one of these, which do not need components.
+      - label: "!type: (announcement|CI|code health|docs|external|process|question)"
 
   question-needs-answer:
     name: "Unanswered questions"
