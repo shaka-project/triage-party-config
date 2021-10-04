@@ -105,10 +105,13 @@ collections:
 
   - id: __velocity__
     name: Issues to include in velocity metrics (hidden)
+    # To see issue velocity averaged over the last 90 days, see the banner at
+    # https://triage-party.shakalab.rocks/k/__velocity__
+    # TODO: Expose/track this data some other way.  This is not easy.
     used_for_statistics: true
     hidden: true
     rules:
-      - closed-milestone-issues
+      - recently-closed-milestone-issues
 
 
 # A long bit of text, factored out and re-used in the rules below.
@@ -319,7 +322,7 @@ rules:
     name: "Open PRs"
     type: pull_request
 
-  closed-milestone-issues:
+  recently-closed-milestone-issues:
     name: "Recently closed milestone issues"
     type: issue
     filters:
