@@ -78,10 +78,12 @@ collections:
        Please address these groups of issues in this order.
 
     rules:
-      - assigned-bugs
-      - p0-bug-needs-fix
-      - p1-bug-needs-fix
-      - p2-bug-needs-fix
+      - assigned-issues
+      - unassigned-p0-issues
+      - unassigned-p1-issues
+      - unassigned-p2-issues
+      - unassigned-p3-issues
+      - unassigned-p4-issues
 
   - id: cleanup
     name: Weekly Cleanup
@@ -235,8 +237,8 @@ rules:
       # In this category, only match PRs which have not been approved yet.
       - tag: "!approved"
 
-  assigned-bugs:
-    name: "Assigned bugs"
+  assigned-issues:
+    name: "Assigned issues"
     resolution: |
         These issues are already assigned to someone.
 
@@ -253,32 +255,55 @@ rules:
       - label: "!status: .*"
       - tag: "assigned"
 
-  p0-bug-needs-fix:
-    name: "P0 issues to fix"
+  unassigned-p0-issues:
+    name: "Unassigned P0 issues"
     resolution: *bug-resolution-text
     type: issue
     filters:
       - label: "!type: (enhancement|external)"
       - label: "priority: P0"
       - label: "!status: .*"
+      - tag: "!assigned"
 
-  p1-bug-needs-fix:
-    name: "P1 issues to fix"
+  unassigned-p1-issues:
+    name: "Unassigned P1 issues"
     resolution: *bug-resolution-text
     type: issue
     filters:
       - label: "!type: (enhancement|external)"
       - label: "priority: P1"
       - label: "!status: .*"
+      - tag: "!assigned"
 
-  p2-bug-needs-fix:
-    name: "P2 issues to fix"
+  unassigned-p2-issues:
+    name: "Unassigned P2 issues"
     resolution: *bug-resolution-text
     type: issue
     filters:
       - label: "!type: (enhancement|external)"
       - label: "priority: P2"
       - label: "!status: .*"
+      - tag: "!assigned"
+
+  unassigned-p3-issues:
+    name: "Unassigned P3 issues"
+    resolution: *bug-resolution-text
+    type: issue
+    filters:
+      - label: "!type: (enhancement|external)"
+      - label: "priority: P3"
+      - label: "!status: .*"
+      - tag: "!assigned"
+
+  unassigned-p4-issues:
+    name: "Unassigned P4 issues"
+    resolution: *bug-resolution-text
+    type: issue
+    filters:
+      - label: "!type: (enhancement|external)"
+      - label: "priority: P4"
+      - label: "!status: .*"
+      - tag: "!assigned"
 
   issues-maybe-ready-to-close:
     name: "Issues that might be ready to close"
