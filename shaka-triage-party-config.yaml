@@ -55,7 +55,9 @@ collections:
       - issue-needs-type
       - issue-needs-priority
       - question-needs-answer
-      - issue-needs-component
+      # TODO: It may be nice to add components to everything down the line.
+      # For now, it's not critical, and there's a huge backlog.
+      #- issue-needs-component
 
   - id: pr
     name: PRs
