@@ -101,3 +101,14 @@ a.navbar-item,
   position: absolute;
   margin-left: 1em;
 }
+
+@media screen and (max-width: 1023px) {
+  /* On small screens, many navbar elements are hidden, and the player selector
+   * on the right is suddenly on the left, overlapping the go link.  So let's
+   * move it back to the right on small screens, and keep our go link on the
+   * left. */
+  .navbar-right {
+    position: absolute;
+    right: 1em;
+  }
+}
