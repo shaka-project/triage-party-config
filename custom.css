@@ -90,7 +90,7 @@ a.navbar-item,
 
 .navbar-brand img {
   /* Change the image in the nav bar to our logo. */
-  content:url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
+  content: url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
 }
 
 .navbar.secondary::before {
@@ -111,4 +111,21 @@ a.navbar-item,
     position: absolute;
     right: 1em;
   }
+}
+
+
+/* If and when we clear a the triage list, let's change the way that is shown.
+ * I just don't like the default.  ~Joey
+ * See https://en.wikipedia.org/wiki/Bugzilla#Zarro_Boogs */
+.celebrate h1 {
+  font-size: 60px;
+  display: inline-block;
+}
+.celebrate h2 {
+  content: url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
+  margin: auto; /* center it */
+  display: inline-block;
+}
+.celebrate p {
+  display: none;
 }
