@@ -19,9 +19,11 @@
 // here.
 (() => {
   const onLoaded = () => {
-    // Sort all collections by least recent response.
+    // Sort all collections by least recent update.
     // These have been waiting for attention the longest.
-    document.querySelectorAll('.hd.col-response.sorting').forEach(x => x.click());
+    // NOTE: We initially used least recent response, but the metadata for that
+    // doesn't seem to match what you would expect.
+    document.querySelectorAll('.hd.col-update.sorting').forEach(x => x.click());
   };
 
   // Wait for the page to finish loading before executing the code above.
