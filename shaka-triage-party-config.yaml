@@ -199,6 +199,8 @@ rules:
       - label: "type: question"
       # The most recent comment was not from a member of the project.
       - tag: "!(member-last|owner-last|collaborator-last)"
+      # We didn't apply the "waiting on response" label manually.
+      - label: "!status: waiting on response"
 
   pr-ready-to-merge:
     name: "PRs ready to merge"
