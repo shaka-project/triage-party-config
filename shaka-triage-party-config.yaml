@@ -22,14 +22,15 @@ settings:
   name: Shaka Team Triage
   repos:
     # TODO: re-enable Shaka Packager when we are ready to catch up
-    #- https://github.com/google/shaka-packager
-    - https://github.com/google/shaka-player
+    #- https://github.com/shaka-project/shaka-packager
+    - https://github.com/shaka-project/shaka-player
     # TODO: re-enable Shaka Player Embedded when we are ready to catch up
-    #- https://github.com/google/shaka-player-embedded
-    - https://github.com/google/shaka-streamer
-    - https://github.com/google/eme-encryption-scheme-polyfill
-    - https://github.com/google/generic-webdriver-server
-    - https://github.com/joeyparrish/static-ffmpeg-binaries
+    #- https://github.com/shaka-project/shaka-player-embedded
+    - https://github.com/shaka-project/shaka-streamer
+    - https://github.com/shaka-project/eme-encryption-scheme-polyfill
+    - https://github.com/shaka-project/generic-webdriver-server
+    - https://github.com/shaka-project/static-ffmpeg-binaries
+    # TODO: Add others when we're ready
 
   # From 0-1, how similar issues must be to be tagged as "similar"
   min_similarity: 0.75
@@ -344,7 +345,7 @@ rules:
       - label: "!status: (archived|waiting on response)"
 
   # TODO: Add multiple-types to the weekly list once there is a way to do it.
-  # See https://github.com/google/triage-party/issues/274
+  # See https://github.com/shaka-project/triage-party/issues/274
   #multiple-types:
   #  name: "Issues with more than one type"
   #  resolution: "Choose a specific type for this issue."
