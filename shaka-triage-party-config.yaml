@@ -21,24 +21,26 @@
 settings:
   name: Shaka Team Triage
   repos:
-    # TODO: re-enable Shaka Packager when we are ready to catch up
-    #- https://github.com/shaka-project/shaka-packager
+    - https://github.com/shaka-project/shaka-packager
     - https://github.com/shaka-project/shaka-player
-    # TODO: re-enable Shaka Player Embedded when we are ready to catch up
-    #- https://github.com/shaka-project/shaka-player-embedded
+    - https://github.com/shaka-project/shaka-player-embedded
     - https://github.com/shaka-project/shaka-streamer
     - https://github.com/shaka-project/eme-encryption-scheme-polyfill
     - https://github.com/shaka-project/generic-webdriver-server
     - https://github.com/shaka-project/static-ffmpeg-binaries
-    # TODO: Add others when we're ready
+    - https://github.com/shaka-project/eme_logger
+    - https://github.com/shaka-project/trace-anything
+    - https://github.com/shaka-project/karma-local-wd-launcher
+    - https://github.com/shaka-project/webdriver-installer
+    - https://github.com/shaka-project/shaka-github-tools
+    - https://github.com/shaka-project/triage-party-config
 
   # From 0-1, how similar issues must be to be tagged as "similar"
   min_similarity: 0.75
 
   # Which roles are considered members of the project?
   member-roles:
-    # TODO: enable "member" when we have our own org for these projects
-    #- member # of the org that owns the project
+    - member # of the org that owns the project
     - collaborator
     - owner
 
@@ -218,7 +220,7 @@ rules:
       # extra scrutiny may be required.
       - tag: "approved"
 
-  # TODO: add labels for checks (Jenkins and/or GitHub Actions)
+  # TODO: add labels for checks (GitHub Actions)
   # TODO: split this into PRs that have passed checks and those that haven't
   pr-needs-review:
     name: "PRs ready for review"
@@ -345,7 +347,7 @@ rules:
       - label: "!status: (archived|waiting on response)"
 
   # TODO: Add multiple-types to the weekly list once there is a way to do it.
-  # See https://github.com/shaka-project/triage-party/issues/274
+  # See https://github.com/google/triage-party/issues/274
   #multiple-types:
   #  name: "Issues with more than one type"
   #  resolution: "Choose a specific type for this issue."

@@ -93,15 +93,6 @@ a.navbar-item,
   content: url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
 }
 
-.navbar.secondary::before {
-  /* Add a go/ link under the title in the secondary nav bar. */
-  content: "go/shaka-triage";
-  color: white;
-  /* It should not take up space in the layout or move the navbar contents. */
-  position: absolute;
-  margin-left: 1em;
-}
-
 @media screen and (max-width: 1023px) {
   /* On small screens, many navbar elements are hidden, and the player selector
    * on the right is suddenly on the left, overlapping the go link.  So let's
