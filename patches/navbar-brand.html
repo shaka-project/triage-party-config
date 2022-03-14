@@ -1,0 +1,22 @@
+  <!-- A replacement for the standard navbar-brand of the default template. -->
+  <div class="navbar-brand">
+    <span class="navbar-item">
+      <strong>Shaka Triage</strong>
+      <img src="/static/img/shaka-logo.png" alt="logo">
+    </span>
+
+    <!-- Hidden on normal screens, takes over for navbar on narrow screens. -->
+    <a id="burgerMenu" role="button" class="navbar-burger"
+       aria-label="menu" aria-expanded="false" data-target="mainNavbar"
+       onclick="toggleBurgerMenu();">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+    <script>
+      function toggleBurgerMenu() {
+        mainNavbar.classList.toggle('is-active');
+        burgerMenu.classList.toggle('is-active');
+      }
+    </script>
+  </div>

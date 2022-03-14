@@ -50,13 +50,6 @@ h4.subtitle::after {
   content: "\a";
 }
 
-
-.navbar-brand {
-  /* This link to the home page is fairly useless.  This disables it. */
-  pointer-events: none;
-}
-
-
 .navbar {
   background-color: #fafafa;
   font-weight: bold;
@@ -80,6 +73,20 @@ a.navbar-item,
   background-color: #fbbc09 !important;
 }
 
+/* This comes into play on narrow screens (<1024px).  On these, the navbar is
+ * hidden until it has the is-active class.  But triage-party has a garish
+ * background color attached to is-active.  It also uses !important, so we have
+ * to do the same. */
+.is-active {
+  background-color: #fafafa !important;
+}
+
+/* The override just before this causes the hamburger button to be
+ * white-on-white, since it also uses is-active.  Reset the color. */
+#burgerMenu.is-active {
+  color: #4a4a4a !important;
+}
+
 .navbar.secondary {
   background-color: #3db94b;
 }
@@ -87,23 +94,6 @@ a.navbar-item,
 .navbar-center {
   color: white;
 }
-
-.navbar-brand img {
-  /* Change the image in the nav bar to our logo. */
-  content: url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
-}
-
-@media screen and (max-width: 1023px) {
-  /* On small screens, many navbar elements are hidden, and the player selector
-   * on the right is suddenly on the left, overlapping the go link.  So let's
-   * move it back to the right on small screens, and keep our go link on the
-   * left. */
-  .navbar-right {
-    position: absolute;
-    right: 1em;
-  }
-}
-
 
 /* If and when we clear a the triage list, let's change the way that is shown.
  * I just don't like the default.  ~Joey
@@ -113,7 +103,7 @@ a.navbar-item,
   display: inline-block;
 }
 .celebrate h2 {
-  content: url(https://shaka-player-demo.appspot.com/demo/shaka_logo_trans.png);
+  content: url(/static/img/shaka-logo.png);
   margin: auto; /* center it */
   display: inline-block;
 }
