@@ -14,26 +14,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM triageparty/triage-party:latest AS original
+# This forked version gets us the ability to scope collections to certain repos
+# while still reusing rules across collections.
+# TODO: Restore upstream image once PR #263 lands.
+# https://github.com/google/triage-party/pull/263
+#ARG BASE_IMAGE=triageparty/triage-party:latest
+ARG BASE_IMAGE=joeyparrish/triage-party:scope-repos-to-collections
+
+FROM ${BASE_IMAGE} AS original
 
 # The base image doesn't have basic distro-type things like /bin/bash.
 # To extract and modify parts of the original image, use this busybox image.
 FROM busybox:latest AS mods
 WORKDIR /
+
+# Run a sed script to patch base.tmpl.
+COPY --from=original /app/site/base.tmpl .
+COPY patches/base.tmpl.sed .
+COPY patches/navbar-brand.html .
+RUN sed -f base.tmpl.sed -i base.tmpl
+
+# Run a sed script to patch collection.tmpl.
 COPY --from=original /app/site/collection.tmpl .
-# Insert additional JavaScript into the collection view template.
-# This JavaScript is specific to the collection view.
-# This sed command looks for the line that defines JS in the template, then
-# inserts our script tag right after that.
-RUN sed \
-    -e '/{{ define "js" }}/a <script src="/static/extra-collection.js"></script>' \
-    -i collection.tmpl
+COPY patches/collection.tmpl.sed .
+RUN sed -f collection.tmpl.sed -i collection.tmpl
 
 # Now build our image based on the original, plus patches, some of which were
 # derived from originals above.
-FROM triageparty/triage-party:latest
+FROM ${BASE_IMAGE}
 WORKDIR /app
-COPY custom.css /app/site/static/css/custom.css
+COPY patches/custom.css /app/site/static/css/custom.css
+COPY patches/shaka-logo.png /app/site/static/img/shaka-logo.png
+COPY patches/extra-collection.js /app/site/static/extra-collection.js
 COPY shaka-triage-party-config.yaml /app/config/config.yaml
-COPY extra-collection.js /app/site/static/extra-collection.js
 COPY --from=mods /collection.tmpl /app/site/collection.tmpl
+COPY --from=mods /base.tmpl /app/site/base.tmpl

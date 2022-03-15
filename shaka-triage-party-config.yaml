@@ -19,7 +19,7 @@
 
 
 settings:
-  name: Shaka Team Triage
+  name: Shaka Triage
   repos:
     - https://github.com/shaka-project/shaka-packager
     - https://github.com/shaka-project/shaka-player
@@ -48,50 +48,73 @@ settings:
   members: []
 
 
+# A list of rules for the various project tabs, factored out and reused.
+per-project-triage-rules: &per-project-triage-rules
+  - issue-needs-type
+  - issue-needs-priority
+  - question-needs-answer
+  # TODO: It may be nice to add components to everything down the line.
+  # For now, it's not critical, and there's a huge backlog.
+  #- issue-needs-component
+  - pr-ready-to-merge
+  - pr-needs-review
+  - assigned-issues
+  - unassigned-p0-issues
+  - unassigned-p1-issues
+  - unassigned-p2-issues
+  - unassigned-p3-issues
+  - unassigned-p4-issues
+
 collections:
-  - id: triage
-    name: Daily Triage
-    description: |
-       Please address these groups of issues in this order.
+  - id: all
+    name: All
+    rules: *per-project-triage-rules
 
-    rules:
-      - issue-needs-type
-      - issue-needs-priority
-      - question-needs-answer
-      # TODO: It may be nice to add components to everything down the line.
-      # For now, it's not critical, and there's a huge backlog.
-      #- issue-needs-component
+  - id: shaka-player
+    name: Player
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/shaka-player
+      - https://github.com/shaka-project/eme-encryption-scheme-polyfill
+      - https://github.com/shaka-project/karma-local-wd-launcher
+      - https://github.com/shaka-project/webdriver-installer
 
-  - id: pr
-    name: PRs
-    dedup: true
-    description: |
-       Help them help us!
+  - id: shaka-packager
+    name: Packager
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/shaka-packager
 
-       Please give attention to these PRs.  Treat contributors like teammates.
+  - id: shaka-player-embedded
+    name: Embedded
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/shaka-player-embedded
 
-    rules:
-      - pr-ready-to-merge
-      - pr-needs-review
+  - id: shaka-streamer
+    name: Streamer
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/shaka-streamer
+      - https://github.com/shaka-project/static-ffmpeg-binaries
 
-  - id: bugs
-    name: Bugs
-    dedup: true
-    description: |
-       "To create bugs is human; to fix them, divine."
+  - id: infra
+    name: Infra
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/generic-webdriver-server
+      - https://github.com/shaka-project/shaka-github-tools
+      - https://github.com/shaka-project/triage-party-config
 
-       Please address these groups of issues in this order.
-
-    rules:
-      - assigned-issues
-      - unassigned-p0-issues
-      - unassigned-p1-issues
-      - unassigned-p2-issues
-      - unassigned-p3-issues
-      - unassigned-p4-issues
+  - id: logger
+    name: Logger
+    rules: *per-project-triage-rules
+    repos:
+      - https://github.com/shaka-project/eme_logger
+      - https://github.com/shaka-project/trace-anything
 
   - id: cleanup
-    name: Weekly Cleanup
+    name: Cleanup
     dedup: true
     description: |
         A clean tracker is a happy tracker!
@@ -227,15 +250,12 @@ rules:
     resolution: |
         Please review.
 
-        You may ping your teammates if you need help evaluating a PR, but try
-        to track down what you don't know.
-
-        You should also consider asking the author to clarify things for you,
-        either in review comments or by adding comments to their code.
+        If something is unclear, consider asking the author to clarify things
+        for you, either in review comments or by adding comments to their code.
 
         You can manually add the "status: waiting for response" label if you
-        haven't had a reply in a while.  This will start the timer for
-        shaka-bot to eventually close the PR.
+        haven't had a reply in a while.  This will start the timer for the PR
+        to be closed after several days.
 
         If you aren't getting replies to your feedback, you can also choose to
         re-implement what the contributor has sent in a different way.  But do
