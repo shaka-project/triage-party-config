@@ -14,12 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This forked version gets us the ability to scope collections to certain repos
-# while still reusing rules across collections.
-# TODO: Restore upstream image once PR #263 lands.
-# https://github.com/google/triage-party/pull/263
+# TODO: Restore upstream image if these PRs ever land
 #ARG BASE_IMAGE=triageparty/triage-party:latest
-ARG BASE_IMAGE=joeyparrish/triage-party:scope-repos-to-collections
+
+# This forked version gets us the ability to:
+#  - scope collections to repos while still reusing rules across collections
+#    - https://github.com/google/triage-party/pull/286
+#  - categorize collections for hierarchical views
+#    - Not yet sent, depends on scope PR
+# Built from https://github.com/joeyparrish/triage-party/tree/project-hierarchy
+ARG BASE_IMAGE=joeyparrish/triage-party:project-hierarchy
 
 FROM ${BASE_IMAGE} AS original
 

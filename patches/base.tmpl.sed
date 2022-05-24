@@ -11,7 +11,5 @@
   d
 }
 
-# The templates contain multiple elements with the ID "navbarBasicExample".
-# This replaces the one in base.tmpl with "mainNavbar".  This becomes important
-# when we need to reference one specific one for the mobile-friendly navbar.
-s/navbarBasicExample/mainNavbar/
+# Give the top-level nav element an id we can refer to.
+s/<nav /<nav id="navbar" /

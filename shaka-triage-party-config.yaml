@@ -48,8 +48,8 @@ settings:
   members: []
 
 
-# A list of rules for the various project tabs, factored out and reused.
-per-project-triage-rules: &per-project-triage-rules
+# Lists of rules for the various project tabs, factored out and reused.
+triage-rules: &triage-rules
   - issue-needs-type
   - issue-needs-priority
   - question-needs-answer
@@ -58,6 +58,8 @@ per-project-triage-rules: &per-project-triage-rules
   #- issue-needs-component
   - pr-ready-to-merge
   - pr-needs-review
+
+fix-rules: &fix-rules
   - assigned-issues
   - unassigned-p0-issues
   - unassigned-p1-issues
@@ -65,83 +67,225 @@ per-project-triage-rules: &per-project-triage-rules
   - unassigned-p3-issues
   - unassigned-p4-issues
 
+cleanup-rules: &cleanup-rules
+  - issues-maybe-ready-to-close
+  - announcements
+
+cleanup-description: &cleanup-description |
+  A clean tracker is a happy tracker!
+
+  Please check these issues that may need to be cleaned up.
+
+velocity-rules: &velocity-rules
+  - recently-closed-issues
+
+
+# Lists of repos for the various project tabs, factored out and reused.
+player-repos: &player-repos
+  - https://github.com/shaka-project/shaka-player
+  - https://github.com/shaka-project/eme-encryption-scheme-polyfill
+  - https://github.com/shaka-project/karma-local-wd-launcher
+  - https://github.com/shaka-project/webdriver-installer
+
+embedded-repos: &embedded-repos
+  - https://github.com/shaka-project/shaka-player-embedded
+
+packager-repos: &packager-repos
+  - https://github.com/shaka-project/shaka-packager
+
+streamer-repos: &streamer-repos
+  - https://github.com/shaka-project/shaka-streamer
+  - https://github.com/shaka-project/static-ffmpeg-binaries
+
+infra-repos: &infra-repos
+  - https://github.com/shaka-project/generic-webdriver-server
+  - https://github.com/shaka-project/shaka-github-tools
+  - https://github.com/shaka-project/triage-party-config
+
+logger-repos: &logger-repos
+  - https://github.com/shaka-project/eme_logger
+  - https://github.com/shaka-project/trace-anything
+
+
 collections:
-  - id: all
-    name: All
-    rules: *per-project-triage-rules
+  - id: player-triage
+    category: Player
+    name: Triage
+    velocity: player-velocity
+    rules: *triage-rules
+    repos: *player-repos
 
-  - id: shaka-player
-    name: Player
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/shaka-player
-      - https://github.com/shaka-project/eme-encryption-scheme-polyfill
-      - https://github.com/shaka-project/karma-local-wd-launcher
-      - https://github.com/shaka-project/webdriver-installer
+  - id: player-fix
+    category: Player
+    name: Fix
+    velocity: player-velocity
+    rules: *fix-rules
+    repos: *player-repos
 
-  - id: shaka-packager
-    name: Packager
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/shaka-packager
-
-  - id: shaka-player-embedded
-    name: Embedded
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/shaka-player-embedded
-
-  - id: shaka-streamer
-    name: Streamer
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/shaka-streamer
-      - https://github.com/shaka-project/static-ffmpeg-binaries
-
-  - id: infra
-    name: Infra
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/generic-webdriver-server
-      - https://github.com/shaka-project/shaka-github-tools
-      - https://github.com/shaka-project/triage-party-config
-
-  - id: logger
-    name: Logger
-    rules: *per-project-triage-rules
-    repos:
-      - https://github.com/shaka-project/eme_logger
-      - https://github.com/shaka-project/trace-anything
-
-  - id: cleanup
+  - id: player-cleanup
+    category: Player
     name: Cleanup
-    dedup: true
-    description: |
-        A clean tracker is a happy tracker!
+    velocity: player-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *player-repos
 
-        Please check these issues that may need to be cleaned up.
-
-    rules:
-      - issues-maybe-ready-to-close
-      - announcements
-
-  - id: __open__
-    name: All open PRs and issues that should be considered for repository stats (hidden)
+  - id: player-velocity
+    name: Velocity (hidden)
     used_for_statistics: true
     hidden: true
-    rules:
-      - open-prs
-      - open-issues
+    rules: *velocity-rules
+    repos: *player-repos
 
-  - id: __velocity__
-    name: Issues to include in velocity metrics (hidden)
-    # To see issue velocity averaged over the last 90 days, see the banner at
-    # https://triage-party.shakalab.rocks/k/__velocity__
-    # TODO: Expose/track this data some other way.  This is not easy.
+
+  - id: packager-triage
+    category: Packager
+    name: Triage
+    velocity: packager-velocity
+    rules: *triage-rules
+    repos: *packager-repos
+
+  - id: packager-fix
+    category: Packager
+    name: Fix
+    velocity: packager-velocity
+    rules: *fix-rules
+    repos: *packager-repos
+
+  - id: packager-cleanup
+    category: Packager
+    name: Cleanup
+    velocity: packager-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *packager-repos
+
+  - id: packager-velocity
+    name: Velocity (hidden)
     used_for_statistics: true
     hidden: true
-    rules:
-      - recently-closed-milestone-issues
+    rules: *velocity-rules
+    repos: *packager-repos
+
+
+  - id: embedded-triage
+    category: Embedded
+    name: Triage
+    velocity: embedded-velocity
+    rules: *triage-rules
+    repos: *embedded-repos
+
+  - id: embedded-fix
+    category: Embedded
+    name: Fix
+    velocity: embedded-velocity
+    rules: *fix-rules
+    repos: *embedded-repos
+
+  - id: embedded-cleanup
+    category: Embedded
+    name: Cleanup
+    velocity: embedded-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *embedded-repos
+
+  - id: embedded-velocity
+    name: Velocity (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules: *velocity-rules
+    repos: *embedded-repos
+
+
+  - id: streamer-triage
+    category: Streamer
+    name: Triage
+    velocity: streamer-velocity
+    rules: *triage-rules
+    repos: *streamer-repos
+
+  - id: streamer-fix
+    category: Streamer
+    name: Fix
+    velocity: streamer-velocity
+    rules: *fix-rules
+    repos: *streamer-repos
+
+  - id: streamer-cleanup
+    category: Streamer
+    name: Cleanup
+    velocity: streamer-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *streamer-repos
+
+  - id: streamer-velocity
+    name: Velocity (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules: *velocity-rules
+    repos: *streamer-repos
+
+
+  - id: infra-triage
+    category: Infra
+    name: Triage
+    velocity: infra-velocity
+    rules: *triage-rules
+    repos: *infra-repos
+
+  - id: infra-fix
+    category: Infra
+    name: Fix
+    velocity: infra-velocity
+    rules: *fix-rules
+    repos: *infra-repos
+
+  - id: infra-cleanup
+    category: Infra
+    name: Cleanup
+    velocity: infra-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *infra-repos
+
+  - id: infra-velocity
+    name: Velocity (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules: *velocity-rules
+    repos: *infra-repos
+
+
+  - id: logger-triage
+    category: Logger
+    name: Triage
+    velocity: logger-velocity
+    rules: *triage-rules
+    repos: *logger-repos
+
+  - id: logger-fix
+    category: Logger
+    name: Fix
+    velocity: logger-velocity
+    rules: *fix-rules
+    repos: *logger-repos
+
+  - id: logger-cleanup
+    category: Logger
+    name: Cleanup
+    velocity: logger-velocity
+    description: *cleanup-description
+    rules: *cleanup-rules
+    repos: *logger-repos
+
+  - id: logger-velocity
+    name: Velocity (hidden)
+    used_for_statistics: true
+    hidden: true
+    rules: *velocity-rules
+    repos: *logger-repos
 
 
 # A long bit of text, factored out and re-used in the rules below.
@@ -381,18 +525,9 @@ rules:
     filters:
       - label: "type: announcement"
 
-  open-issues:
-    name: "Open Issues"
-    type: issue
-
-  open-prs:
-    name: "Open PRs"
-    type: pull_request
-
-  recently-closed-milestone-issues:
-    name: "Recently closed milestone issues"
+  recently-closed-issues:
+    name: "Recently closed issues"
     type: issue
     filters:
       - state: closed
       - closed: -90d
-      - milestone: ".*"

@@ -7,7 +7,7 @@
 
     <!-- Hidden on normal screens, takes over for navbar on narrow screens. -->
     <a id="burgerMenu" role="button" class="navbar-burger"
-       aria-label="menu" aria-expanded="false" data-target="mainNavbar"
+       aria-label="menu" aria-expanded="false" data-target="navbar"
        onclick="toggleBurgerMenu();">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -16,6 +16,7 @@
     <script>
       function toggleBurgerMenu() {
         mainNavbar.classList.toggle('is-active');
+        categoryNavbar.classList.toggle('is-active');
         burgerMenu.classList.toggle('is-active');
       }
     </script>
