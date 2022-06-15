@@ -325,7 +325,7 @@ rules:
         (Make an initial assessment.  It doesn't have to be perfect.)
 
         Tips for assessing priority:
-          • If it's an enhancement, it is almost always a P2 or lower
+          • If it's an enhancement, it is very rarely more urgent than a P2
           • If it's a bug, it is usually a P1 or P2
           • Read the descriptions of each priority label on GitHub to help you decide
 
