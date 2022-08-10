@@ -386,6 +386,8 @@ rules:
       # Match all approved PRs.  But this could be approval from anyone, so
       # extra scrutiny may be required.
       - tag: "approved"
+      # Exclude draft PRs.
+      - tag: "!draft"
 
   # TODO: add labels for checks (GitHub Actions)
   # TODO: split this into PRs that have passed checks and those that haven't
@@ -422,6 +424,8 @@ rules:
       - tag: "(new-commits|recv|recv-q|unreviewed)"
       # In this category, only match PRs which have not been approved yet.
       - tag: "!approved"
+      # Exclude draft PRs.
+      - tag: "!draft"
 
   assigned-issues:
     name: "Assigned issues"
