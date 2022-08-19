@@ -426,6 +426,9 @@ rules:
       - tag: "!approved"
       # Exclude draft PRs.
       - tag: "!draft"
+      # Exclude auto-generated release PRs, which we should be allowed to
+      # ignore until release day without harming our response time stats.
+      - label: "!autorelease: pending"
 
   assigned-issues:
     name: "Assigned issues"
