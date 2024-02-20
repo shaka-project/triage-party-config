@@ -21,10 +21,12 @@
 settings:
   name: Shaka Triage
   repos:
+    - https://github.com/shaka-project/shaka-project.github.io
     - https://github.com/shaka-project/shaka-packager
     - https://github.com/shaka-project/shaka-player
-    - https://github.com/shaka-project/shaka-player-embedded
     - https://github.com/shaka-project/shaka-streamer
+    - https://github.com/shaka-project/shaka-lab
+    - https://github.com/shaka-project/express-chocolatey-server
     - https://github.com/shaka-project/eme-encryption-scheme-polyfill
     - https://github.com/shaka-project/generic-webdriver-server
     - https://github.com/shaka-project/static-ffmpeg-binaries
@@ -87,9 +89,6 @@ player-repos: &player-repos
   - https://github.com/shaka-project/karma-local-wd-launcher
   - https://github.com/shaka-project/webdriver-installer
 
-embedded-repos: &embedded-repos
-  - https://github.com/shaka-project/shaka-player-embedded
-
 packager-repos: &packager-repos
   - https://github.com/shaka-project/shaka-packager
 
@@ -101,6 +100,9 @@ infra-repos: &infra-repos
   - https://github.com/shaka-project/generic-webdriver-server
   - https://github.com/shaka-project/shaka-github-tools
   - https://github.com/shaka-project/triage-party-config
+  - https://github.com/shaka-project/shaka-lab
+  - https://github.com/shaka-project/express-chocolatey-server
+  - https://github.com/shaka-project/shaka-project.github.io
 
 logger-repos: &logger-repos
   - https://github.com/shaka-project/eme_logger
@@ -166,36 +168,6 @@ collections:
     hidden: true
     rules: *velocity-rules
     repos: *packager-repos
-
-
-  - id: embedded-triage
-    category: Embedded
-    name: Triage
-    velocity: embedded-velocity
-    rules: *triage-rules
-    repos: *embedded-repos
-
-  - id: embedded-fix
-    category: Embedded
-    name: Fix
-    velocity: embedded-velocity
-    rules: *fix-rules
-    repos: *embedded-repos
-
-  - id: embedded-cleanup
-    category: Embedded
-    name: Cleanup
-    velocity: embedded-velocity
-    description: *cleanup-description
-    rules: *cleanup-rules
-    repos: *embedded-repos
-
-  - id: embedded-velocity
-    name: Velocity (hidden)
-    used_for_statistics: true
-    hidden: true
-    rules: *velocity-rules
-    repos: *embedded-repos
 
 
   - id: streamer-triage
