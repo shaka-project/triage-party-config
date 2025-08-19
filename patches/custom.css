@@ -50,9 +50,21 @@ h4.subtitle::after {
   content: "\a";
 }
 
+/* All navbar elements */
 .navbar {
   background-color: #fafafa;
   font-weight: bold;
+
+  /* Make navbars sticky at the top of the page when scrolling down. */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar.secondary {
+  /* The secondary navbar is still sticky, but at a different position.
+   * This matches the primary navbar height. */
+  top: 3.25rem;
 }
 
 .navbar,
