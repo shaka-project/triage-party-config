@@ -27,7 +27,6 @@ settings:
     - https://github.com/shaka-project/shaka-streamer
     - https://github.com/shaka-project/shaka-lab
     - https://github.com/shaka-project/express-chocolatey-server
-    - https://github.com/shaka-project/eme-encryption-scheme-polyfill
     - https://github.com/shaka-project/generic-webdriver-server
     - https://github.com/shaka-project/static-ffmpeg-binaries
     - https://github.com/shaka-project/eme_logger
@@ -85,7 +84,6 @@ velocity-rules: &velocity-rules
 # Lists of repos for the various project tabs, factored out and reused.
 player-repos: &player-repos
   - https://github.com/shaka-project/shaka-player
-  - https://github.com/shaka-project/eme-encryption-scheme-polyfill
   - https://github.com/shaka-project/karma-local-wd-launcher
   - https://github.com/shaka-project/webdriver-installer
 
